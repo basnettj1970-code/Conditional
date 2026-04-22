@@ -30,10 +30,7 @@
       padding: 28px 16px 40px;
     }
 
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-    }
+    .wrap{ max-width: 980px; margin: 0 auto; }
 
     .header{
       display:flex;
@@ -53,22 +50,10 @@
       box-shadow: var(--shadow);
     }
 
-    h1{
-      margin: 0 0 8px;
-      font-size: clamp(24px, 3vw, 36px);
-      letter-spacing: .2px;
-    }
-    .subtitle{
-      margin:0 0 12px;
-      color:var(--muted);
-      line-height:1.35;
-    }
+    h1{ margin: 0 0 8px; font-size: clamp(24px, 3vw, 36px); letter-spacing: .2px; }
+    .subtitle{ margin:0 0 12px; color:var(--muted); line-height:1.35; }
 
-    .pillRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
+    .pillRow{ display:flex; flex-wrap:wrap; gap:8px; }
     .pill{
       padding: 6px 10px;
       border-radius:999px;
@@ -79,7 +64,7 @@
     }
 
     .controls{
-      flex:0 1 320px;
+      flex:0 1 340px;
       padding: 18px;
       border:1px solid var(--border);
       background: rgba(255,255,255,.06);
@@ -90,6 +75,8 @@
       gap:10px;
     }
 
+    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; }
+
     button{
       appearance:none;
       border:1px solid rgba(122,162,255,.55);
@@ -97,9 +84,11 @@
       color: var(--text);
       padding: 12px 14px;
       border-radius: 14px;
-      font-weight: 700;
+      font-weight: 750;
       cursor:pointer;
-      transition: transform .05s ease, border-color .15s ease;
+      transition: transform .05s ease, border-color .15s ease, opacity .15s ease;
+      flex:1 1 auto;
+      min-width: 150px;
     }
     button:active{ transform: translateY(1px); }
     button:hover{ border-color: rgba(122,162,255,.9); }
@@ -107,8 +96,15 @@
     button.secondary{
       border:1px solid var(--border);
       background: rgba(255,255,255,.05);
-      font-weight: 650;
+      font-weight: 700;
+      min-width: 150px;
     }
+    button.ghost{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.12);
+      min-width: 150px;
+    }
+    button:disabled{ opacity:.55; cursor:not-allowed; }
 
     .toggle{
       display:flex;
@@ -120,17 +116,20 @@
     }
     .toggle input{ transform: translateY(1px); }
 
-    .score{
-      margin: 6px 0 0;
-      font-size: 18px;
-      font-weight: 800;
+    .score{ margin: 6px 0 0; font-size: 18px; font-weight: 850; }
+    .note{ margin:0; color: var(--muted); font-size: 13px; line-height:1.35; }
+
+    .banner{
+      display:none;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(52,211,153,.35);
+      background: rgba(52,211,153,.10);
+      color: var(--good);
+      font-weight: 750;
     }
-    .note{
-      margin:0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height:1.35;
-    }
+    .banner.show{ display:block; }
 
     .quiz{
       display:grid;
@@ -146,18 +145,11 @@
       padding: 14px 14px 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,.20);
     }
-    .qline{
-      margin:0 0 10px;
-      font-weight: 700;
-    }
+    .qline{ margin:0 0 10px; font-weight: 750; }
 
-    .inputs{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 10px;
-    }
+    .inputs{ display:flex; flex-wrap:wrap; gap: 10px; }
     input[type="text"]{
-      width: 190px;
+      width: 210px;
       max-width: 100%;
       padding: 10px 10px;
       border-radius: 14px;
@@ -203,12 +195,7 @@
       background: rgba(251,113,133,.10);
     }
 
-    .answer{
-      display:none;
-      color: #d7e3ff;
-      font-size: 14px;
-      opacity:.95;
-    }
+    .answer{ display:none; color: #d7e3ff; font-size: 14px; opacity:.95; }
     .answer.show{ display:block; }
 
     details{
@@ -218,16 +205,8 @@
       padding: 12px 14px;
       background: rgba(255,255,255,.05);
     }
-    summary{
-      cursor:pointer;
-      color: var(--accent);
-      font-weight: 700;
-    }
-    .rule{
-      color: var(--muted);
-      margin: 10px 0 0;
-      line-height:1.45;
-    }
+    summary{ cursor:pointer; color: var(--accent); font-weight: 800; }
+    .rule{ color: var(--muted); margin: 10px 0 0; line-height:1.45; }
   </style>
 </head>
 
@@ -236,126 +215,22 @@
     <div class="header">
       <section class="titleBox">
         <h1>Si + imparfait ➜ conditionnel</h1>
-        <p class="subtitle">Complète les phrases (gap-fill). Astuce : <strong>si</strong> + imparfait → conditionnel présent.</p>
+        <p class="subtitle">Complète les phrases (gap-fill). Parfois, la proposition en <strong>si</strong> vient en deuxième.</p>
         <div class="pillRow">
           <span class="pill">Imparfait après “si”</span>
           <span class="pill">Conditionnel dans la conséquence</span>
-          <span class="pill">Auto-correction</span>
+          <span class="pill">Ordre mélangé</span>
+          <span class="pill">Nouvelle série automatique</span>
         </div>
       </section>
 
       <aside class="controls">
-        <button id="checkBtn">Vérifier mes réponses</button>
-        <button id="resetBtn" class="secondary">Réinitialiser</button>
+        <div class="btnRow">
+          <button id="checkBtn">Vérifier</button>
+          <button id="newSetBtn" class="ghost">Nouvelle série</button>
+          <button id="resetBtn" class="secondary">Effacer</button>
+        </div>
 
         <label class="toggle">
           <input type="checkbox" id="showAnswersToggle">
           Afficher les corrections
-        </label>
-
-        <p id="score" class="score"></p>
-        <p class="note">Conseil : mets les accents si possible (étions, achèterions…).</p>
-      </aside>
-    </div>
-
-    <section id="quiz" class="quiz"></section>
-
-    <details>
-      <summary>Rappel (règle)</summary>
-      <p class="rule"><strong>Si</strong> + <strong>imparfait</strong> → <strong>conditionnel présent</strong><br>
-      <em>Ex :</em> Si j’avais le temps, je voyagerais.</p>
-    </details>
-  </div>
-
-  <script>
-    // --------- QUIZ DATA (edit these anytime) ----------
-    const questions = [
-      { text: "Si j'_____ (avoir) plus de temps, je _____ (voyager) plus souvent.", answers: ["avais","voyagerais"] },
-      { text: "Si nous _____ (être) riches, nous _____ (acheter) une maison en France.", answers: ["étions","achèterions"] },
-      { text: "Si tu _____ (pouvoir) venir, tu _____ (voir) mes parents.", answers: ["pouvais","verrais"] },
-      { text: "S'ils _____ (faire) plus d'efforts, ils _____ (réussir) à l'examen.", answers: ["faisaient","réussiraient"] },
-      { text: "Si je _____ (savoir) la vérité, je ne _____ (dire) rien.", answers: ["savais","dirais"] },
-      { text: "Si elle _____ (vouloir) vraiment, elle _____ (finir) plus tôt.", answers: ["voulait","finirait"] },
-      { text: "Si vous _____ (aller) en France, vous _____ (prendre) le train ?", answers: ["alliez","prendriez"] },
-      { text: "Si on _____ (avoir) une voiture, on _____ (pouvoir) y aller plus vite.", answers: ["avait","pourrait"] }
-    ];
-
-    // --------- ELEMENTS ----------
-    const quizEl = document.getElementById("quiz");
-    const scoreEl = document.getElementById("score");
-    const showAnswersToggle = document.getElementById("showAnswersToggle");
-    const checkBtn = document.getElementById("checkBtn");
-    const resetBtn = document.getElementById("resetBtn");
-
-    // --------- HELPERS ----------
-    function norm(s){ return (s || "").trim().toLowerCase(); }
-
-    // --------- RENDER ----------
-    function render(){
-      quizEl.innerHTML = "";
-      questions.forEach((q, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <p class="qline">${i+1}. ${q.text}</p>
-          <div class="inputs">
-            <input type="text" inputmode="text" placeholder="verbe 1" data-q="${i}" data-a="0" autocomplete="off">
-            <input type="text" inputmode="text" placeholder="verbe 2" data-q="${i}" data-a="1" autocomplete="off">
-          </div>
-          <div class="row">
-            <span id="tag-${i}" class="tag">⏳ Pas encore corrigé</span>
-            <span id="ans-${i}" class="answer">✅ Correction : <strong>${q.answers[0]}</strong> / <strong>${q.answers[1]}</strong></span>
-          </div>
-        `;
-        quizEl.appendChild(card);
-      });
-      scoreEl.textContent = "";
-      setAnswerVisibility();
-    }
-
-    function setAnswerVisibility(){
-      questions.forEach((_, i) => {
-        const ans = document.getElementById(`ans-${i}`);
-        if (!ans) return;
-        ans.classList.toggle("show", showAnswersToggle.checked);
-      });
-    }
-
-    function check(){
-      let correct = 0;
-
-      const inputs = quizEl.querySelectorAll("input[type='text']");
-      const user = Array.from({length: questions.length}, () => ["",""]);
-
-      inputs.forEach(inp => {
-        user[Number(inp.dataset.q)][Number(inp.dataset.a)] = inp.value;
-      });
-
-      questions.forEach((q, i) => {
-        const ok = norm(user[i][0]) === norm(q.answers[0]) && norm(user[i][1]) === norm(q.answers[1]);
-
-        const tag = document.getElementById(`tag-${i}`);
-        tag.textContent = ok ? "✅ Correct" : "❌ À corriger";
-        tag.className = "tag " + (ok ? "good" : "bad");
-
-        if (ok) correct++;
-      });
-
-      scoreEl.textContent = `Score : ${correct} / ${questions.length}`;
-      setAnswerVisibility();
-    }
-
-    function resetQuiz(){
-      render();
-    }
-
-    // --------- EVENTS ----------
-    checkBtn.addEventListener("click", check);
-    resetBtn.addEventListener("click", resetQuiz);
-    showAnswersToggle.addEventListener("change", setAnswerVisibility);
-
-    // --------- START ----------
-    render();
-  </script>
-</body>
-</html>
