@@ -1,0 +1,20 @@
+index.html<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Si + imparfait → conditionnel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Si + imparfait ➜ conditionnel</h1>
+<p>Complète les phrases avec la bonne forme du verbe.</p>
+
+<div id="quiz"></div>
+
+<button onclick="check()">Vérifier mes réponses</button>
+<p id="score"></p>
+
+<script src="script.js"></script>
+</body>
+</html>
