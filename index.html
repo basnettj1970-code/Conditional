@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz – Si clauses (standard / difficile)</title>
+  <title>Passé composé | Quiz gap-fill</title>
 
   <style>
     :root{
@@ -17,6 +17,7 @@
       --bad:#fb7185;
       --shadow: 0 18px 50px rgba(0,0,0,.35);
     }
+
     *{ box-sizing:border-box; }
     body{
       margin:0;
@@ -26,12 +27,14 @@
       background: radial-gradient(1100px 650px at 15% 0%, #1b2f66 0%, var(--bg2) 48%, var(--bg1) 100%);
       padding: 28px 16px 40px;
     }
-    .wrap{ max-width: 1020px; margin: 0 auto; }
+
+    .wrap{ max-width: 1000px; margin: 0 auto; }
 
     .header{
-      display:flex; gap:16px; align-items:stretch; justify-content:space-between; flex-wrap:wrap;
-      margin-bottom: 14px;
+      display:flex; gap:16px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom: 16px;
     }
+
     .titleBox{
       flex:1 1 560px;
       padding: 18px 18px 16px;
@@ -40,9 +43,233 @@
       border-radius: 18px;
       box-shadow: var(--shadow);
     }
-    h1{ margin: 0 0 8px; font-size: clamp(24px, 3vw, 36px); }
-    .subtitle{ margin:0 0 10px; color:var(--muted); line-height:1.35; }
 
+    h1{ margin:0 0 8px; font-size: clamp(24px, 3vw, 36px); }
+    .subtitle{ margin:0 0 12px; color:var(--muted); line-height:1.35; }
     .pillRow{ display:flex; flex-wrap:wrap; gap:8px; }
     .pill{
-      padding: 6px 10px; border-radius:999px; font-size: 12px;
+      padding: 6px 10px;
+      border-radius:999px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+    }
+
+    .controls{
+      flex:0 1 380px;
+      padding: 18px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .row{ display:flex; gap:10px; flex-wrap:wrap; }
+
+    button{
+      appearance:none;
+      border:1px solid rgba(122,162,255,.55);
+      background: linear-gradient(180deg, rgba(122,162,255,.28), rgba(122,162,255,.12));
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      cursor:pointer;
+      flex:1 1 auto;
+      min-width: 160px;
+      transition: opacity .15s ease, transform .05s ease;
+    }
+    button:active{ transform: translateY(1px); }
+    button.secondary{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      font-weight: 750;
+    }
+    button.ghost{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.12);
+      font-weight: 750;
+    }
+
+    .select{
+      width:100%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      font-size: 15px;
+      outline:none;
+    }
+
+    /* Hidden until first submission */
+    .toggle{
+      display:none;
+      align-items:center;
+      gap:10px;
+      color: var(--muted);
+      font-size: 14px;
+      user-select:none;
+      margin-top: 4px;
+    }
+    .toggle.show{ display:flex; }
+    .toggle input{ transform: translateY(1px); }
+
+    .score{ margin: 6px 0 0; font-size: 18px; font-weight: 900; }
+    .note{ margin:0; color: var(--muted); font-size: 13px; line-height:1.35; }
+
+    .banner{
+      display:none;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(52,211,153,.35);
+      background: rgba(52,211,153,.10);
+      color: var(--good);
+      font-weight: 900;
+    }
+    .banner.show{ display:block; }
+
+    /* Accent buttons */
+    .accentBar{
+      display:flex; gap:8px; flex-wrap:wrap;
+      padding-top: 4px;
+    }
+    .accentBtn{
+      min-width:auto;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.12);
+      cursor:pointer;
+    }
+
+    .quiz{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .card{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.20);
+    }
+    .qline{ margin:0 0 10px; font-weight: 850; }
+    .inputs{ display:flex; flex-wrap:wrap; gap: 10px; }
+    input[type="text"]{
+      width: 420px;
+      max-width: 100%;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+      font-size: 16px;
+    }
+    input[type="text"]:focus{
+      border-color: rgba(122,162,255,.9);
+      box-shadow: 0 0 0 3px rgba(122,162,255,.18);
+    }
+
+    .markRow{
+      margin-top: 10px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+    }
+    .tag.good{
+      color: var(--good);
+      border-color: rgba(52,211,153,.35);
+      background: rgba(52,211,153,.10);
+    }
+    .tag.bad{
+      color: var(--bad);
+      border-color: rgba(251,113,133,.35);
+      background: rgba(251,113,133,.10);
+    }
+    .answer{ display:none; color: #d7e3ff; font-size: 14px; opacity:.95; }
+    .answer.show{ display:block; }
+
+    details{
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.05);
+    }
+    summary{ cursor:pointer; color: var(--accent); font-weight: 900; }
+    .rule{ color: var(--muted); margin: 10px 0 0; line-height:1.45; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="header">
+      <section class="titleBox">
+        <h1>Passé composé (avoir / être) — gap-fill</h1>
+        <p class="subtitle">
+          Tape la forme correcte au <strong>passé composé</strong>. Les accents sont attendus.
+          (Le bouton “Afficher les corrections” n’apparaît qu’après la première soumission.)
+        </p>
+        <div class="pillRow">
+          <span class="pill">Auxiliaire avoir / être</span>
+          <span class="pill">Participe passé</span>
+          <span class="pill">Accord avec être</span>
+          <span class="pill">Nouvelle série après 100%</span>
+        </div>
+      </section>
+
+      <aside class="controls">
+        <label class="note" for="level">Niveau</label>
+        <select id="level" class="select">
+          <option value="basic">Basique (GCSE)</option>
+          <option value="hard">Difficile (accords / pronoms / négation)</option>
+        </select>
+
+        <div class="row">
+          <button id="checkBtn">Soumettre</button>
+          <button id="newSetBtn" class="ghost">Nouvelle série</button>
+          <button id="clearBtn" class="secondary">Effacer</button>
+        </div>
+
+        <div id="toggleWrap" class="toggle">
+          <input type="checkbox" id="showAnswersToggle">
+          <label for="showAnswersToggle">Afficher les corrections</label>
+        </div>
+
+        <div class="accentBar" aria-label="Accents">
+          <button class="accentBtn" data-ch="é">é</button>
+          <button class="accentBtn" data-ch="è">è</button>
+          <button class="accentBtn" data-ch="ê">ê</button>
+          <button class="accentBtn" data-ch="à">à</button>
+          <button class="accentBtn" data-ch="ç">ç</button>
+          <button class="accentBtn" data-ch="ù">ù</button>
+          <button class="accentBtn" data-ch="ï">ï</button>
+          <button class="accentBtn" data-ch="ô">ô</button>
+        </div>
+
+        <p id="score" class="score"></p>
+        <div id="banner" class="banner">🎉 Bravo ! Nouvelle série…</div>
+        <p class="note">Astuce : clique dans la case puis utilise les
