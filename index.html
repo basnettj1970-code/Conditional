@@ -1,275 +1,184 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Passé composé | Quiz gap-fill</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Si clauses – Conditional & Future</title>
 
-  <style>
-    :root{
-      --bg1:#0b1220;
-      --bg2:#0f1b36;
-      --border: rgba(255,255,255,.14);
-      --text:#eaf0ff;
-      --muted:#b8c4e6;
-      --accent:#7aa2ff;
-      --good:#34d399;
-      --bad:#fb7185;
-      --shadow: 0 18px 50px rgba(0,0,0,.35);
-    }
-
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      min-height:100vh;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      color:var(--text);
-      background: radial-gradient(1100px 650px at 15% 0%, #1b2f66 0%, var(--bg2) 48%, var(--bg1) 100%);
-      padding: 28px 16px 40px;
-    }
-
-    .wrap{ max-width: 1000px; margin: 0 auto; }
-
-    .header{
-      display:flex; gap:16px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
-      margin-bottom: 16px;
-    }
-
-    .titleBox{
-      flex:1 1 560px;
-      padding: 18px 18px 16px;
-      border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    h1{ margin:0 0 8px; font-size: clamp(24px, 3vw, 36px); }
-    .subtitle{ margin:0 0 12px; color:var(--muted); line-height:1.35; }
-    .pillRow{ display:flex; flex-wrap:wrap; gap:8px; }
-    .pill{
-      padding: 6px 10px;
-      border-radius:999px;
-      font-size: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      color: var(--muted);
-    }
-
-    .controls{
-      flex:0 1 380px;
-      padding: 18px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .row{ display:flex; gap:10px; flex-wrap:wrap; }
-
-    button{
-      appearance:none;
-      border:1px solid rgba(122,162,255,.55);
-      background: linear-gradient(180deg, rgba(122,162,255,.28), rgba(122,162,255,.12));
-      color: var(--text);
-      padding: 12px 14px;
-      border-radius: 14px;
-      font-weight: 800;
-      cursor:pointer;
-      flex:1 1 auto;
-      min-width: 160px;
-      transition: opacity .15s ease, transform .05s ease;
-    }
-    button:active{ transform: translateY(1px); }
-    button.secondary{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
-      font-weight: 750;
-    }
-    button.ghost{
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.12);
-      font-weight: 750;
-    }
-
-    .select{
-      width:100%;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
-      font-size: 15px;
-      outline:none;
-    }
-
-    /* Hidden until first submission */
-    .toggle{
-      display:none;
-      align-items:center;
-      gap:10px;
-      color: var(--muted);
-      font-size: 14px;
-      user-select:none;
-      margin-top: 4px;
-    }
-    .toggle.show{ display:flex; }
-    .toggle input{ transform: translateY(1px); }
-
-    .score{ margin: 6px 0 0; font-size: 18px; font-weight: 900; }
-    .note{ margin:0; color: var(--muted); font-size: 13px; line-height:1.35; }
-
-    .banner{
-      display:none;
-      margin-top: 8px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(52,211,153,.35);
-      background: rgba(52,211,153,.10);
-      color: var(--good);
-      font-weight: 900;
-    }
-    .banner.show{ display:block; }
-
-    /* Accent buttons */
-    .accentBar{
-      display:flex; gap:8px; flex-wrap:wrap;
-      padding-top: 4px;
-    }
-    .accentBtn{
-      min-width:auto;
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-weight: 900;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.12);
-      cursor:pointer;
-    }
-
-    .quiz{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .card{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      border-radius: 18px;
-      padding: 14px 14px 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.20);
-    }
-    .qline{ margin:0 0 10px; font-weight: 850; }
-    .inputs{ display:flex; flex-wrap:wrap; gap: 10px; }
-    input[type="text"]{
-      width: 420px;
-      max-width: 100%;
-      padding: 10px 10px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
-      outline:none;
-      font-size: 16px;
-    }
-    input[type="text"]:focus{
-      border-color: rgba(122,162,255,.9);
-      box-shadow: 0 0 0 3px rgba(122,162,255,.18);
-    }
-
-    .markRow{
-      margin-top: 10px;
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size: 13px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.05);
-      color: var(--muted);
-    }
-    .tag.good{
-      color: var(--good);
-      border-color: rgba(52,211,153,.35);
-      background: rgba(52,211,153,.10);
-    }
-    .tag.bad{
-      color: var(--bad);
-      border-color: rgba(251,113,133,.35);
-      background: rgba(251,113,133,.10);
-    }
-    .answer{ display:none; color: #d7e3ff; font-size: 14px; opacity:.95; }
-    .answer.show{ display:block; }
-
-    details{
-      margin-top: 14px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 12px 14px;
-      background: rgba(255,255,255,.05);
-    }
-    summary{ cursor:pointer; color: var(--accent); font-weight: 900; }
-    .rule{ color: var(--muted); margin: 10px 0 0; line-height:1.45; }
-  </style>
+<style>
+body{
+  font-family: system-ui, Arial, sans-serif;
+  background:#f4f6fb;
+  margin:0;
+  padding:20px;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+}
+h1{ margin-top:0; color:#2b4eff; }
+.card{
+  border:1px solid #dde3f6;
+  border-radius:10px;
+  padding:12px;
+  margin:12px 0;
+}
+.inputs input{
+  width:180px;
+  padding:8px;
+  margin-right:8px;
+}
+button{
+  padding:10px 14px;
+  border-radius:8px;
+  border:1px solid #2b4eff;
+  background:#2b4eff;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+button.secondary{
+  background:white;
+  color:#2b4eff;
+}
+.tag{ font-weight:600; }
+.good{ color:green; }
+.bad{ color:#b00020; }
+.answer{ display:none; margin-top:6px; }
+.answer.show{ display:block; }
+#accentBar button{
+  margin:2px;
+  padding:6px 10px;
+}
+.hidden{ display:none; }
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="header">
-      <section class="titleBox">
-        <h1>Passé composé (avoir / être) — gap-fill</h1>
-        <p class="subtitle">
-          Tape la forme correcte au <strong>passé composé</strong>. Les accents sont attendus.
-          (Le bouton “Afficher les corrections” n’apparaît qu’après la première soumission.)
-        </p>
-        <div class="pillRow">
-          <span class="pill">Auxiliaire avoir / être</span>
-          <span class="pill">Participe passé</span>
-          <span class="pill">Accord avec être</span>
-          <span class="pill">Nouvelle série après 100%</span>
+<div class="container">
+<h1>Si clauses – conditionnel & futur</h1>
+<p>Complète les phrases avec la bonne forme du verbe. Attention aux accents.</p>
+
+<label>
+  Niveau :
+  <select id="level">
+    <option value="easy">Niveau 1 – conditionnel</option>
+    <option value="hard">Niveau 2 – futur / conditionnel</option>
+  </select>
+</label>
+
+<div id="quiz"></div>
+
+<button id="checkBtn">Soumettre</button>
+<button id="newBtn" class="secondary">Nouvelle série</button>
+
+<div id="showWrap" class="hidden">
+  <label><input type="checkbox" id="showAnswers"> Voir les corrections</label>
+</div>
+
+<p id="score"></p>
+
+<div id="accentBar">
+  <strong>Accents:</strong>
+  <button data-a="é">é</button>
+  <button data-a="è">è</button>
+  <button data-a="ê">ê</button>
+  <button data-a="à">à</button>
+  <button data-a="ç">ç</button>
+  <button data-a="ù">ù</button>
+  <button data-a="ô">ô</button>
+  <button data-a="ï">ï</button>
+</div>
+
+</div>
+
+<script>
+const EASY = [
+ {s:"Si j'_____ (avoir) le temps, je _____ (voyager) plus.", a:["avais","voyagerais"]},
+ {s:"Je _____ (acheter) une maison si j'_____ (être) riche.", a:["achèterais","étais"]},
+ {s:"Si nous _____ (pouvoir) choisir, nous _____ (partir) demain.", a:["pouvions","partirions"]},
+ {s:"Ils _____ (réussir) si ils _____ (travailler) plus.", a:["réussiraient","travaillaient"]}
+];
+
+const HARD = [
+ // conditionnel
+ {s:"Si j'_____ (avoir) plus d'argent, je _____ (changer) de voiture.", a:["avais","changerais"]},
+ {s:"Je _____ (aider) mes parents si je _____ (pouvoir).", a:["aiderais","pouvais"]},
+
+ // futur
+ {s:"Si tu _____ (finir) tes devoirs ce soir, tu _____ (sortir) demain.", a:["finis","sortiras"]},
+ {s:"Nous _____ (aller) à Paris si le train _____ (partir) à l'heure.", a:["irons","part"]},
+
+ // mixed order
+ {s:"Tu _____ (réussir) ton examen si tu _____ (travailler) sérieusement.", a:["réussiras","travailles"]},
+ {s:"Je _____ (voyager) plus si j'_____ (avoir) le temps.", a:["voyagerais","avais"]}
+];
+
+let current=[];
+let lastInput=null;
+let submitted=false;
+
+const quiz=document.getElementById("quiz");
+
+function pickSet(){
+  const bank=document.getElementById("level").value==="easy"?EASY:HARD;
+  current=[...bank].sort(()=>Math.random()-0.5).slice(0,4);
+}
+
+function render(){
+  submitted=false;
+  document.getElementById("showWrap").classList.add("hidden");
+  quiz.innerHTML="";
+  current.forEach((q,i)=>{
+    quiz.innerHTML+=`
+      <div class="card">
+        <p>${i+1}. ${q.s}</p>
+        <div class="inputs">
+          <input data-q="${i}" data-a="0">
+          <input data-q="${i}" data-a="1">
         </div>
-      </section>
+        <div class="tag" id="tag-${i}"></div>
+        <div class="answer" id="ans-${i}">✅ ${q.a[0]} / ${q.a[1]}</div>
+      </div>`;
+  });
+  quiz.querySelectorAll("input").forEach(i=>i.onfocus=()=>lastInput=i);
+}
 
-      <aside class="controls">
-        <label class="note" for="level">Niveau</label>
-        <select id="level" class="select">
-          <option value="basic">Basique (GCSE)</option>
-          <option value="hard">Difficile (accords / pronoms / négation)</option>
-        </select>
+function check(){
+  let score=0;
+  submitted=true;
+  document.getElementById("showWrap").classList.remove("hidden");
 
-        <div class="row">
-          <button id="checkBtn">Soumettre</button>
-          <button id="newSetBtn" class="ghost">Nouvelle série</button>
-          <button id="clearBtn" class="secondary">Effacer</button>
-        </div>
+  current.forEach((q,i)=>{
+    const u0=quiz.querySelector(`[data-q="${i}"][data-a="0"]`).value.trim().toLowerCase();
+    const u1=quiz.querySelector(`[data-q="${i}"][data-a="1"]`).value.trim().toLowerCase();
+    const ok=u0===q.a[0] && u1===q.a[1];
+    document.getElementById(`tag-${i}`).innerHTML=ok?"<span class='good'>Correct</span>":"<span class='bad'>À corriger</span>";
+    if(ok) score++;
+  });
+  document.getElementById("score").innerText=`Score : ${score} / ${current.length}`;
+  if(score===current.length){ pickSet(); render(); }
+}
 
-        <div id="toggleWrap" class="toggle">
-          <input type="checkbox" id="showAnswersToggle">
-          <label for="showAnswersToggle">Afficher les corrections</label>
-        </div>
+document.getElementById("checkBtn").onclick=check;
+document.getElementById("newBtn").onclick=()=>{ pickSet(); render(); };
+document.getElementById("showAnswers").onchange=e=>{
+  current.forEach((_,i)=>document.getElementById(`ans-${i}`).classList.toggle("show",e.target.checked));
+};
 
-        <div class="accentBar" aria-label="Accents">
-          <button class="accentBtn" data-ch="é">é</button>
-          <button class="accentBtn" data-ch="è">è</button>
-          <button class="accentBtn" data-ch="ê">ê</button>
-          <button class="accentBtn" data-ch="à">à</button>
-          <button class="accentBtn" data-ch="ç">ç</button>
-          <button class="accentBtn" data-ch="ù">ù</button>
-          <button class="accentBtn" data-ch="ï">ï</button>
-          <button class="accentBtn" data-ch="ô">ô</button>
-        </div>
+document.querySelectorAll("#accentBar button").forEach(b=>{
+  b.onclick=()=>{ if(lastInput){ lastInput.value+=b.dataset.a; lastInput.focus(); } };
+});
 
-        <p id="score" class="score"></p>
-        <div id="banner" class="banner">🎉 Bravo ! Nouvelle série…</div>
-        <p class="note">Astuce : clique dans la case puis utilise les
+document.getElementById("level").onchange=()=>{ pickSet(); render(); };
+
+pickSet();
+render();
+</script>
+</body>
+</html>
+
