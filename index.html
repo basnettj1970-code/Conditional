@@ -1,20 +1,182 @@
-index.html<!doctype html>
-<html lang="en">
+<!doctype html>
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Si + imparfait → conditionnel</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Si + imparfait → conditionnel (Quiz)</title>
+
+  <style>
+    body{
+      font-family: system-ui, Arial, sans-serif;
+      background:#f4f6fb;
+      margin:0;
+      padding:20px;
+    }
+    .container{
+      max-width:900px;
+      margin:0 auto;
+      background:#fff;
+      border-radius:14px;
+      padding:18px 18px 22px;
+      box-shadow:0 6px 22px rgba(0,0,0,.08);
+    }
+    h1{ margin:0 0 6px; color:#2b4eff; }
+    .subtitle{ margin:0 0 14px; color:#444; }
+    .card{
+      border:1px solid #e5e9f5;
+      border-radius:12px;
+      padding:12px;
+      margin:10px 0;
+      background:#fbfcff;
+    }
+    .qline{ font-weight:600; margin:0 0 10px; }
+    .inputs{ display:flex; gap:10px; flex-wrap:wrap; }
+    input[type="text"]{
+      padding:10px 10px;
+      border-radius:10px;
+      border:1px solid #cfd7f2;
+      width:170px;
+      font-size:16px;
+    }
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    button{
+      padding:10px 14px;
+      border-radius:10px;
+      border:1px solid #cfd7f2;
+      background:#2b4eff;
+      color:#fff;
+      font-weight:600;
+      cursor:pointer;
+    }
+    button.secondary{
+      background:#fff;
+      color:#2b4eff;
+    }
+    .toggle{ margin-left:auto; font-size:14px; }
+    .score{ font-weight:800; margin-top:12px; font-size:18px; }
+    .answer{ display:none; color:#1b7f45; font-size:14px; }
+    .answer.show{ display:block; }
+    .tag{
+      font-size:13px; padding:4px 10px; border-radius:999px; display:inline-block;
+      border:1px solid #dde3f6;
+      background:#f5f7ff;
+    }
+    .good{ background:#e7f8ef; color:#1b7f45; border-color:#bfead2; }
+    .bad{ background:#ffe8ec; color:#a61b33; border-color:#ffc1cc; }
+    .row{
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
 </head>
+
 <body>
+  <main class="container">
+    <h1>Si + imparfait ➜ conditionnel</h1>
+    <p class="subtitle">Complète les phrases avec la bonne forme du verbe (gap-fill).</p>
 
-<h1>Si + imparfait ➜ conditionnel</h1>
-<p>Complète les phrases avec la bonne forme du verbe.</p>
+    <section id="quiz"></section>
 
-<div id="quiz"></div>
+    <div class="controls">
+      <button id="checkBtn">Vérifier mes réponses</button>
+      <button id="resetBtn" class="secondary">Réinitialiser</button>
 
-<button onclick="check()">Vérifier mes réponses</button>
-<p id="score"></p>
+      <label class="toggle">
+        <input type="checkbox" id="showAnswersToggle">
+        Afficher les corrections
+      </label>
+    </div>
 
-<script src="script.js"></script>
+    <p id="score" class="score"></p>
+  </main>
+
+  <script>
+    // Si + imparfait -> conditionnel (gap-fill)
+    const questions = [
+      { text: "Si j'_____ (avoir) plus de temps, je _____ (voyager) plus souvent.", answers: ["avais","voyagerais"] },
+      { text: "Si nous _____ (être) riches, nous _____ (acheter) une maison en France.", answers: ["étions","achèterions"] },
+      { text: "Si tu _____ (pouvoir) venir, tu _____ (voir) mes parents.", answers: ["pouvais","verrais"] },
+      { text: "S'ils _____ (faire) plus d'efforts, ils _____ (réussir) à l'examen.", answers: ["faisaient","réussiraient"] },
+      { text: "Si je _____ (savoir) la vérité, je ne _____ (dire) rien.", answers: ["savais","dirais"] }
+    ];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const showAnswersToggle = document.getElementById("showAnswersToggle");
+    const checkBtn = document.getElementById("checkBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function norm(s){ return (s || "").trim().toLowerCase(); }
+
+    function render(){
+      quizEl.innerHTML = "";
+      questions.forEach((q, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <p class="qline">${i+1}. ${q.text}</p>
+          <div class="inputs">
+            <input type="text" placeholder="verbe 1" data-q="${i}" data-a="0" autocomplete="off">
+            <input type="text" placeholder="verbe 2" data-q="${i}" data-a="1" autocomplete="off">
+          </div>
+          <div class="row">
+            <span id="tag-${i}" class="tag">⏳ Pas encore corrigé</span>
+            <span id="ans-${i}" class="answer">✅ Correction : <strong>${q.answers[0]}</strong> / <strong>${q.answers[1]}</strong></span>
+          </div>
+        `;
+        quizEl.appendChild(card);
+      });
+      scoreEl.textContent = "";
+      setAnswerVisibility();
+    }
+
+    function setAnswerVisibility(){
+      questions.forEach((_, i) => {
+        const ans = document.getElementById(`ans-${i}`);
+        if (!ans) return;
+        ans.classList.toggle("show", showAnswersToggle.checked);
+      });
+    }
+
+    function check(){
+      let correct = 0;
+      const inputs = quizEl.querySelectorAll("input[type='text']");
+      const user = Array.from({length: questions.length}, () => ["",""]);
+
+      inputs.forEach(inp => {
+        user[Number(inp.dataset.q)][Number(inp.dataset.a)] = inp.value;
+      });
+
+      questions.forEach((q, i) => {
+        const ok = norm(user[i][0]) === norm(q.answers[0]) && norm(user[i][1]) === norm(q.answers[1]);
+        const tag = document.getElementById(`tag-${i}`);
+        tag.textContent = ok ? "✅ Correct" : "❌ À corriger";
+        tag.className = "tag " + (ok ? "good" : "bad");
+        if (ok) correct++;
+      });
+
+      scoreEl.textContent = `Score : ${correct} / ${questions.length}`;
+      setAnswerVisibility();
+    }
+
+    function resetQuiz(){
+      render();
+    }
+
+    checkBtn.addEventListener("click", check);
+    resetBtn.addEventListener("click", resetQuiz);
+    showAnswersToggle.addEventListener("change", setAnswerVisibility);
+
+    render();
+  </script>
 </body>
 </html>
